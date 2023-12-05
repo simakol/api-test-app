@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Testing app</title>
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="current-url" id="currentURL">Untitled Request</h2>
+      <form id="mainForm" class="main-form">
+        <select name="method" id="method" name="method">
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PUT">PUT</option>
+          <option value="PATCH">PATCH</option>
+          <option value="DELETE">DELETE</option>
+        </select>
+        <input type="url" required name="url" placeholder="Enter URL or paste text"/>
+        <button type="submit" class="submit-btn">Send</button>
+      </form>
+    </div>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
