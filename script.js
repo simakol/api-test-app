@@ -20,5 +20,8 @@ function fillFormFromLS() {
   refs.mainForm.elements.method.value = method;
 
   refs.mainForm.dispatchEvent(new Event("input"));
+
+  // set data-id to each tr tag
+  // [...refs.queryTableBody.children].forEach((tr, i) => (tr.dataset.id = i));
 }
 export default jsonTree;

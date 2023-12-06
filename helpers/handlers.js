@@ -1,11 +1,7 @@
 import refs from "./refs.js";
 import { save, STORAGE_KEYS } from "../services/storage.js";
 import { urlToParamsArr, paramsArrToObj } from "./parsing.js";
-import {
-  insertRow,
-  tableTemplate,
-  deleteLastRow,
-} from "../templates/tableRow.js";
+import { insertRow } from "../templates/tableRow.js";
 import {
   getMethod,
   deleteMethod,
@@ -13,22 +9,20 @@ import {
   updatePutMethod,
   createMethod,
 } from "../services/apiService.js";
-
 import jsonTree from "../script.js";
 
-const fillTableRows = function (paramsArr) {
-  const trList = [...refs.queryTableBody.children];
-  for (const i in trList) {
-    const tdList = [...trList[i].children];
-    for (const j in tdList) {
-      if (paramsArr[i]) {
-        tdList[j].children[0].value = paramsArr[i][j] ?? "";
-      }
-    }
+
+const fillTableWithData = (paramsArr) => {
+  const paramsAmount = paramsArr.length;
+
+  refs.queryTableBody.innerHTML = "";
+  for (let i = 0; i <= paramsAmount; i += 1) {
+    const [key, value] = paramsArr[i] || [];
+    insertRow(key, value, i);
   }
 };
 
-const fillResponseData = function ({ dataSizeKB, status }) {
+const fillResponseData = ({ dataSizeKB, status }) => {
   refs.resSize.textContent = dataSizeKB + " KB";
   refs.resStatus.textContent = status;
 };
@@ -46,28 +40,9 @@ function handleFormInput(event) {
   }
 
   const paramsArr = urlToParamsArr(target.value);
-  const paramsObj = paramsArrToObj(paramsArr);
+  // const paramsObj = paramsArrToObj(paramsArr);
 
-  if (refs.queryTableBody.children.length - 1 > paramsArr.length) {
-    deleteLastRow();
-  }
-
-  if (paramsArr.length < 2) {
-    refs.queryTableBody.innerHTML = tableTemplate;
-  }
-
-  // add rows for params when we load data from ls
-  if (paramsArr.length > refs.queryTableBody.children.length) {
-    for (let i = 0; i < paramsArr.length - 1; i += 1) {
-      insertRow();
-    }
-  }
-
-  fillTableRows(paramsArr);
-
-  if (paramsArr.length === refs.queryTableBody.children.length) {
-    insertRow();
-  }
+  fillTableWithData(paramsArr);
 
   save(STORAGE_KEYS.url, target.value);
 }
