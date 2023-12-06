@@ -27,6 +27,11 @@ const fillTableRows = function (paramsArr) {
   }
 };
 
+const fillResponseData = function ({ dataSizeKB, status }) {
+  refs.resSize.textContent = dataSizeKB;
+  refs.resStatus.textContent = status;
+};
+
 function handleFormInput(event) {
   let key = "";
   if (event.target.name === "url") {
@@ -55,17 +60,40 @@ function handleFormInput(event) {
 async function handleFormSubmit(event) {
   event.preventDefault();
   refs.jsonTree.innerHTML = "Loading...";
-  
+
   const { url, method } = event.currentTarget.elements;
   refs.currentURL.textContent =
     `${method.value} ${url.value.trim()}` || "Untitled Request";
 
   switch (method.value) {
+    //TODO: error handle + more data visualize
     case "GET": {
-      const result = await getMethod(url.value);
-      refs.jsonTree.innerHTML = "";
-      const tree = jsonTree.create(result.data, refs.jsonTree);
-      tree.expand();
+      try {
+        const result = await getMethod(url.value);
+        const blobRes = await getMethod(url.value, true);
+        const dataSizeKB = (blobRes.data.size / 1000).toFixed(1);
+        const { status } = result;
+
+        console.log(result);
+        fillResponseData({
+          dataSizeKB,
+          status,
+        });
+
+        refs.jsonTree.innerHTML = "";
+        const tree = jsonTree.create(result.data, refs.jsonTree);
+        tree.expand();
+      } catch (err) {
+        fillResponseData({
+          dataSizeKB: 0,
+          status: err.response.status,
+        });
+
+        refs.jsonTree.innerHTML = "";
+        console.log(err.response);
+        const tree = jsonTree.create(err.response.data, refs.jsonTree);
+        tree.expand();
+      }
       break;
     }
   }
