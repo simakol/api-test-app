@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API Testing app</title>
     <link rel="stylesheet" href="reset.css" />
+    <link
+      href="https://rawgit.com/summerstyle/jsonTreeViewer/master/libs/jsonTree/jsonTree.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -18,10 +22,41 @@
           <option value="PATCH">PATCH</option>
           <option value="DELETE">DELETE</option>
         </select>
-        <input type="url" required name="url" placeholder="Enter URL or paste text"/>
+        <input
+          type="url"
+          required
+          name="url"
+          placeholder="Enter URL or paste text"
+          autocomplete="off"
+        />
         <button type="submit" class="submit-btn">Send</button>
       </form>
+
+      <h3 class="table-title">query params</h3>
+      <table class="query-table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody id="queryTableBody">
+          <tr>
+            <td><input type="text" name="key" placeholder="Key" /></td>
+            <td><input type="text" name="value" placeholder="Value" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" name="key" placeholder="Key" /></td>
+            <td><input type="text" name="value" placeholder="Value" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="table-title">Responce body</h3>
+      <div class="json-viewer" id="jsonTree"></div>
     </div>
+    <script src="https://rawgit.com/summerstyle/jsonTreeViewer/master/libs/jsonTree/jsonTree.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module" src="script.js"></script>
   </body>
 </html>
