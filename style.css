@@ -50,7 +50,7 @@ input:hover {
   border-right: none;
   font-size: 30px;
   background: url("./images/down-arrow.png") no-repeat right;
-  background-position-x: 130px;
+  background-position-x: 140px;
   appearance: none;
 }
 
@@ -145,4 +145,16 @@ span.jsontree_value.jsontree_value_string {
 }
 span.jsontree_value.jsontree_value_null {
   color: gray;
+}
+
+.res-data {
+  color: #575656;
+  text-align: left;
+}
+.res-data p {
+  margin: 10px 0;
+}
+
+.res-data span {
+  color: #6bdd9a;
 }

@@ -21,40 +21,55 @@ const fillTableRows = function (paramsArr) {
   for (const i in trList) {
     const tdList = [...trList[i].children];
     for (const j in tdList) {
-      //TODO: error reading 0
-      tdList[j].children[0].value = paramsArr[i][j] ?? "";
+      if (paramsArr[i]) {
+        tdList[j].children[0].value = paramsArr[i][j] ?? "";
+      }
     }
   }
 };
 
 const fillResponseData = function ({ dataSizeKB, status }) {
-  refs.resSize.textContent = dataSizeKB;
+  refs.resSize.textContent = dataSizeKB + " KB";
   refs.resStatus.textContent = status;
 };
 
 function handleFormInput(event) {
-  let key = "";
-  if (event.target.name === "url") {
-    key = STORAGE_KEYS.url;
+  if (event.target.name === "method") {
+    save(STORAGE_KEYS.method, event.target.value);
+    return;
+  }
+  let target = event.target;
 
-    const paramsArr = urlToParamsArr(event.target.value);
-    const paramsObj = paramsArrToObj(paramsArr);
-
-    if (refs.queryTableBody.children.length - 1 > paramsArr.length) {
-      deleteLastRow();
-    }
-
-    if (paramsArr.length < 2) {
-      refs.queryTableBody.innerHTML = tableTemplate;
-    }
-
-    fillTableRows(paramsArr);
-    insertRow();
-  } else if (event.target.name === "method") {
-    key = STORAGE_KEYS.method;
+  // when we dispatch event from ls
+  if (target === refs.mainForm) {
+    target = refs.mainForm.elements.url;
   }
 
-  save(key, event.target.value);
+  const paramsArr = urlToParamsArr(target.value);
+  const paramsObj = paramsArrToObj(paramsArr);
+
+  if (refs.queryTableBody.children.length - 1 > paramsArr.length) {
+    deleteLastRow();
+  }
+
+  if (paramsArr.length < 2) {
+    refs.queryTableBody.innerHTML = tableTemplate;
+  }
+
+  // add rows for params when we load data from ls
+  if (paramsArr.length > refs.queryTableBody.children.length) {
+    for (let i = 0; i < paramsArr.length - 1; i += 1) {
+      insertRow();
+    }
+  }
+
+  fillTableRows(paramsArr);
+
+  if (paramsArr.length === refs.queryTableBody.children.length) {
+    insertRow();
+  }
+
+  save(STORAGE_KEYS.url, target.value);
 }
 
 async function handleFormSubmit(event) {
