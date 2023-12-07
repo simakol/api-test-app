@@ -30,9 +30,14 @@ const fillTableWithData = (paramsArr) => {
   }
 };
 
-const fillResponseData = ({ dataSizeKB, status }) => {
+const fillResponseData = ({
+  dataSizeKB = 0,
+  status = "",
+  responseTimeMs = 0,
+}) => {
   refs.resSize.textContent = dataSizeKB + " KB";
   refs.resStatus.textContent = status;
+  refs.resTime.textContent = responseTimeMs + " ms";
 };
 
 const streamToObj = (obj) => JSON.parse(JSON.stringify(obj));
@@ -44,9 +49,16 @@ const showDataInJSONTree = (data) => {
 };
 
 const getData = async (url) => {
+  let responseTimeMs = 0;
   // test normal data
   try {
+    const sendDate = new Date().getTime();
+
     const result = await getMethod(url.value);
+    const receiveDate = new Date().getTime();
+
+    responseTimeMs = receiveDate - sendDate;
+
     showDataInJSONTree(result.data);
   } catch (err) {
     console.log(err, "Normal");
@@ -54,19 +66,31 @@ const getData = async (url) => {
   }
 
   // test blob data
+  let sendDate = 0;
   try {
+    sendDate = new Date().getTime();
+
     const blobRes = await getMethod(url.value, true);
+    const receiveDate = new Date().getTime();
+
+    responseTimeMs += receiveDate - sendDate;
+
     const dataSizeKB = (blobRes.data.size / 1000).toFixed(1);
     const status = blobRes.status;
 
     fillResponseData({
       dataSizeKB,
       status,
+      responseTimeMs,
     });
   } catch (err) {
+    const receiveDate = new Date().getTime();
+
+    console.log(responseTimeMs, refs.resTime.textContent);
     fillResponseData({
       dataSizeKB: err.response?.data.size || 0,
       status: err.response?.status || err.message,
+      responseTimeMs: receiveDate - sendDate,
     });
   }
 };

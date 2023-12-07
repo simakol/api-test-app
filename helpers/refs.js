@@ -5,4 +5,5 @@ export default {
   jsonTree: document.getElementById("jsonTree"),
   resStatus: document.getElementById("resStatus"),
   resSize: document.getElementById("resSize"),
+  resTime: document.getElementById("resTime"),
 };
