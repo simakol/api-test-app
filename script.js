@@ -13,8 +13,8 @@ refs.mainForm.addEventListener("submit", handleFormSubmit);
 fillFormFromLS();
 
 function fillFormFromLS() {
-  const url = load(STORAGE_KEYS.url);
-  const method = load(STORAGE_KEYS.method);
+  const url = load(STORAGE_KEYS.url) || "";
+  const method = load(STORAGE_KEYS.method) || "GET";
 
   refs.mainForm.elements.url.value = url;
   refs.mainForm.elements.method.value = method;
