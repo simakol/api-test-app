@@ -35,6 +35,42 @@ const fillResponseData = ({ dataSizeKB, status }) => {
   refs.resStatus.textContent = status;
 };
 
+const streamToObj = (obj) => JSON.parse(JSON.stringify(obj));
+
+const showDataInJSONTree = (data) => {
+  refs.jsonTree.innerHTML = "";
+  const tree = jsonTree.create(data, refs.jsonTree);
+  tree.expand();
+};
+
+const getData = async (url) => {
+  // test normal data
+  try {
+    const result = await getMethod(url.value);
+    showDataInJSONTree(result.data);
+  } catch (err) {
+    console.log(err, "Normal");
+    showDataInJSONTree(streamToObj(err));
+  }
+
+  // test blob data
+  try {
+    const blobRes = await getMethod(url.value, true);
+    const dataSizeKB = (blobRes.data.size / 1000).toFixed(1);
+    const status = blobRes.status;
+
+    fillResponseData({
+      dataSizeKB,
+      status,
+    });
+  } catch (err) {
+    fillResponseData({
+      dataSizeKB: err.response?.data.size || 0,
+      status: err.response?.status || err.message,
+    });
+  }
+};
+
 function handleFormInput(event) {
   if (event.target.name === "method") {
     save(STORAGE_KEYS.method, event.target.value);
@@ -48,14 +84,13 @@ function handleFormInput(event) {
   }
 
   const paramsArr = urlToParamsArr(target.value);
-  // const paramsObj = paramsArrToObj(paramsArr);
 
   fillTableWithData(paramsArr);
 
   save(STORAGE_KEYS.url, target.value);
 }
 
-async function handleFormSubmit(event) {
+function handleFormSubmit(event) {
   event.preventDefault();
   refs.jsonTree.innerHTML = "Loading...";
 
@@ -64,34 +99,8 @@ async function handleFormSubmit(event) {
     `${method.value} ${url.value.trim()}` || "Untitled Request";
 
   switch (method.value) {
-    //TODO: error handle + more data visualize
     case "GET": {
-      try {
-        const result = await getMethod(url.value);
-        const blobRes = await getMethod(url.value, true);
-        const dataSizeKB = (blobRes.data.size / 1000).toFixed(1);
-        const { status } = result;
-
-        console.log(result);
-        fillResponseData({
-          dataSizeKB,
-          status,
-        });
-
-        refs.jsonTree.innerHTML = "";
-        const tree = jsonTree.create(result.data, refs.jsonTree);
-        tree.expand();
-      } catch (err) {
-        fillResponseData({
-          dataSizeKB: 0,
-          status: err.response.status,
-        });
-
-        refs.jsonTree.innerHTML = "";
-        console.log(err.response);
-        const tree = jsonTree.create(err.response.data, refs.jsonTree);
-        tree.expand();
-      }
+      getData(url);
       break;
     }
   }
@@ -126,7 +135,6 @@ function handleTableParamsInput(event) {
   // if current field is the last in table we need to add a new row
   if (changeParamIndex === refs.queryTableBody.children.length - 1) {
     insertRow("", "", changeParamIndex + 1);
-    // debugger;
     const newParam =
       keyOrValueIndex === 0 ? `${targetValue}=` : `=${targetValue}`;
     paramsArr.push(newParam);
