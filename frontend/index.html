@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Testing app</title>
+    <link rel="stylesheet" href="./styles/reset.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <link
+      href="https://rawgit.com/summerstyle/jsonTreeViewer/master/libs/jsonTree/jsonTree.css"
+      rel="stylesheet"
+    />
+    <link
+      href="
+https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css
+"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./styles/form.css" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="login active" id="loginContainer">
+      <div class="wrapper">
+        <div class="title"><span id="formTitle">Login Form</span></div>
+        <form data-action="login" id="regForm">
+          <div class="row">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              required
+            />
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div class="row button">
+            <input type="submit" value="Login" name="submit" />
+          </div>
+          <div class="signup-link">
+            <span id="switchBtnQuestion">Not a member?</span>
+            <a href="#" id="switchFormAction">Signup now</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <main id="mainContent">
+      <div class="container">
+        <h2 class="current-url" id="currentURL">Untitled Request</h2>
+        <form id="mainForm" class="main-form">
+          <select name="method" id="method" name="method">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+          <input
+            type="url"
+            required
+            name="url"
+            placeholder="Enter URL or paste text"
+            autocomplete="off"
+          />
+          <button type="submit" class="submit-btn">Send</button>
+        </form>
+        <h3 class="table-title">Requests history</h3>
+        <p id="reqHistory"></p>
+
+        <h3 class="table-title">query params</h3>
+        <table class="query-table">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody id="queryTableBody"></tbody>
+        </table>
+
+        <h3 class="table-title">Responce body</h3>
+        <div class="res-data">
+          <p>Status: <span id="resStatus"></span></p>
+          <p>Size: <span id="resSize"></span></p>
+          <p>Time: <span id="resTime"></span></p>
+        </div>
+        <div class="json-viewer" id="jsonTree"></div>
+      </div>
+    </main>
+
+    <script src="
+https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-aio-3.2.7.min.js
+"></script>
+    <script src="https://rawgit.com/summerstyle/jsonTreeViewer/master/libs/jsonTree/jsonTree.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

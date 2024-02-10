@@ -1,0 +1,185 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgb(7, 234, 234, 0.3);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 15px;
+}
+
+main {
+  display: none;
+}
+
+main.active {
+  display: block;
+}
+
+body {
+  background-color: #212121;
+  font-family: "Roboto", sans-serif;
+}
+
+.current-url {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 26px;
+  text-align: left;
+  color: #fff;
+  max-width: 100%;
+}
+
+.main-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+input:hover {
+  cursor: text;
+}
+
+.main-form > * {
+  outline: none;
+  transition: 0.5s;
+  height: 55px;
+}
+
+.main-form > select:focus,
+.main-form > input:focus,
+.main-form > .submit-btn:hover {
+  border-color: rgb(7, 234, 234);
+}
+
+.main-form > select {
+  background-color: #212121;
+  color: #fff;
+  padding: 0 20px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  border-right: none;
+  font-size: 30px;
+  background: url("./images/down-arrow.png") no-repeat right;
+  background-position-x: 140px;
+  appearance: none;
+}
+
+.main-form > input {
+  background-color: #212121;
+  border: 1px solid rgb(118, 118, 118);
+  padding: 0 19px;
+  border-right: none;
+  border-left: none;
+  width: 75vw;
+  height: 53px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.main-form > .submit-btn {
+  background-color: #212121;
+  border: 1px solid rgb(118, 118, 118);
+  padding: 0 20px;
+  border-left: none;
+  color: #fff;
+  font-size: 26px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  cursor: pointer;
+}
+
+#reqHistory {
+  text-align: left;
+  color: #a6a6a6;
+  line-height: 1.4;
+}
+
+.table-title {
+  font-size: 18px;
+  color: #a6a6a6;
+  text-transform: capitalize;
+  text-align: left;
+  font-weight: bold;
+  margin: 50px 0 10px;
+}
+.query-table {
+  width: 100%;
+}
+
+.query-table th {
+  color: #a6a6a6;
+  font-weight: bold;
+}
+
+.query-table td {
+  color: #575656;
+}
+
+.query-table,
+tr,
+td,
+th {
+  border: 2px solid #303030;
+  border-collapse: collapse;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+}
+
+#queryTableBody input {
+  background-color: #212121;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  width: 90%;
+  outline: none;
+}
+
+.json-viewer {
+  margin-top: 50px;
+  color: #fff;
+  text-align: left;
+}
+
+.json-viewer span {
+  color: #9cdcfe;
+}
+
+.json-viewer b {
+  color: #fff;
+}
+
+.jsontree_expand-button {
+  background-color: #fff;
+  border-radius: 10px;
+}
+span.jsontree_value.jsontree_value_number {
+  color: #b5cea8;
+}
+span.jsontree_value.jsontree_value_string {
+  color: #ce9178;
+}
+span.jsontree_value.jsontree_value_null {
+  color: gray;
+}
+
+.res-data {
+  color: #575656;
+  text-align: left;
+}
+.res-data p {
+  margin: 10px 0;
+}
+
+.res-data span {
+  color: #6bdd9a;
+}
