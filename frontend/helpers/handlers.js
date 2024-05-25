@@ -100,7 +100,7 @@ const getData = async (url) => {
   const formController = new RegForm();
   try {
     const res = await formController.addToHistory(username, url.value);
-    console.log(res);
+    refs.reqHistory.textContent = res.data.reqHistory.join(", ");
   } catch (err) {
     console.log(err);
   }
@@ -194,4 +194,20 @@ function handleTableParamsInput(event) {
   save(STORAGE_KEYS.url, newURL);
 }
 
-export { handleFormInput, handleFormSubmit, handleTableParamsInput };
+const handleClearReqHistory = async () => {
+  const username = localStorage.getItem("username");
+  const formController = new RegForm();
+  try {
+    await formController.clearHistory(username);
+    refs.reqHistory.textContent = "";
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export {
+  handleFormInput,
+  handleFormSubmit,
+  handleTableParamsInput,
+  handleClearReqHistory,
+};

@@ -2,6 +2,7 @@ import {
   handleFormInput,
   handleFormSubmit,
   handleTableParamsInput,
+  handleClearReqHistory,
 } from "./helpers/handlers.js";
 import refs from "./helpers/refs.js";
 import { STORAGE_KEYS, load } from "./services/storage.js";
@@ -13,6 +14,7 @@ refs.queryTableBody.addEventListener("input", handleTableParamsInput);
 refs.mainForm.addEventListener("submit", handleFormSubmit);
 refs.regForm.addEventListener("submit", handleRegFormSubmit);
 refs.switchFormAction.addEventListener("click", handleSwitchFormAction);
+refs.clearHistoryBtn.addEventListener("click", handleClearReqHistory);
 
 fillFormFromLS();
 

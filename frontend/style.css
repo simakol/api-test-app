@@ -102,6 +102,24 @@ input:hover {
   color: #a6a6a6;
   line-height: 1.4;
 }
+.history-title-wrapper h3 {
+  margin: 0;
+}
+.history-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin: 50px 0 10px;
+}
+
+.history-title-wrapper .clear-btn {
+  color: #9cdcfe;
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
 
 .table-title {
   font-size: 18px;

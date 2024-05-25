@@ -6,6 +6,7 @@ class RegForm {
     login: "login",
     registration: "registration",
     addToHistory: "addToHistory",
+    clearHistory: "clearHistory",
     users: "users",
   };
 
@@ -24,6 +25,11 @@ class RegForm {
   async addToHistory(username, value) {
     const URL = `${RegForm.BASE_URL}/${RegForm.ENDPOINTS.addToHistory}/${username}`;
     const res = await axios.patch(URL, { value });
+    return res;
+  }
+  async clearHistory(username) {
+    const URL = `${RegForm.BASE_URL}/${RegForm.ENDPOINTS.clearHistory}/${username}`;
+    const res = await axios.patch(URL, {});
     return res;
   }
 

@@ -17,6 +17,7 @@ router.post(
 );
 router.post("/login", controller.login);
 router.patch("/addToHistory/:username", controller.addToHistory);
+router.patch("/clearHistory/:username", controller.clearHistory);
 router.get("/users/:username", controller.getUserByUsername);
 router.get("/users", roleMiddleware(["ADMIN"]), controller.getUsers);
 

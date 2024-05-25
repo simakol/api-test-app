@@ -92,9 +92,24 @@ class AuthController {
       return res.status(400).json({ message: "User is not found!" });
     }
 
-    if (!user.reqHistory.includes(value)) {
+    const isValueNew = !user.reqHistory.includes(value);
+
+    if (isValueNew) {
       user.reqHistory.push(value);
     }
+
+    await user.save();
+    res.json(user);
+    return isValueNew ? value : "";
+  }
+
+  async clearHistory(req, res) {
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) {
+      return res.status(400).json({ message: "User is not found!" });
+    }
+
+    user.reqHistory.splice(0);
 
     await user.save();
     res.json(user);

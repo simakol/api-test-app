@@ -13,4 +13,5 @@ export default {
   switchBtnQuestion: document.getElementById("switchBtnQuestion"),
   formTitle: document.getElementById("formTitle"),
   reqHistory: document.getElementById("reqHistory"),
+  clearHistoryBtn: document.getElementById("clearHistoryBtn"),
 };
