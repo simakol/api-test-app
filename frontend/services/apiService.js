@@ -4,9 +4,12 @@ function createMethod(url, data) {
   return axios.post(url, data);
 }
 
-async function getMethod(url, isBlob) {
-  return await axios.get(url, isBlob ? { responseType: "blob" } : {});
+async function getMethod(url) {
+  return await axios.get(url);
 }
+// async function getMethod(url, isBlob) {
+//   return await axios.get(url, isBlob ? { responseType: "blob" } : {});
+// }
 
 function deleteMethod(url) {
   return axios.delete(url);

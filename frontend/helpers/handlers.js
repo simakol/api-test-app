@@ -2,6 +2,8 @@ import refs from "./refs.js";
 import { save, STORAGE_KEYS } from "../services/storage.js";
 import { urlToParamsArr, paramsArrToObj } from "./parsing.js";
 import { insertRow } from "../templates/tableRow.js";
+import { sendRequest } from "./requests.js";
+import RegForm from "../services/formService.js";
 import {
   getMethod,
   deleteMethod,
@@ -9,8 +11,6 @@ import {
   updatePutMethod,
   createMethod,
 } from "../services/apiService.js";
-import jsonTree from "../script.js";
-import RegForm from "../services/formService.js";
 
 const fillTableWithData = (paramsArr) => {
   const paramsAmount = paramsArr.length;
@@ -28,81 +28,6 @@ const fillTableWithData = (paramsArr) => {
   for (let i = 0; i <= paramsAmount; i += 1) {
     const [key, value] = paramsArr[i] || [];
     insertRow(key, value, i);
-  }
-};
-
-const fillResponseData = ({
-  dataSizeKB = 0,
-  status = "",
-  responseTimeMs = 0,
-}) => {
-  refs.resSize.textContent = dataSizeKB + " KB";
-  refs.resStatus.textContent = status;
-  refs.resTime.textContent = responseTimeMs + " ms";
-};
-
-const streamToObj = (obj) => JSON.parse(JSON.stringify(obj));
-
-const showDataInJSONTree = (data) => {
-  refs.jsonTree.innerHTML = "";
-  const tree = jsonTree.create(data, refs.jsonTree);
-  tree.expand();
-};
-
-const getData = async (url) => {
-  let responseTimeMs = 0;
-  // test normal data
-  try {
-    const sendDate = new Date().getTime();
-
-    const result = await getMethod(url.value);
-    const receiveDate = new Date().getTime();
-
-    responseTimeMs = receiveDate - sendDate;
-
-    showDataInJSONTree(result.data);
-  } catch (err) {
-    console.log(err, "Normal");
-    showDataInJSONTree(streamToObj(err));
-  }
-
-  // test blob data
-  let sendDate = 0;
-  try {
-    sendDate = new Date().getTime();
-
-    const blobRes = await getMethod(url.value, true);
-    const receiveDate = new Date().getTime();
-
-    responseTimeMs += receiveDate - sendDate;
-
-    const dataSizeKB = (blobRes.data.size / 1000).toFixed(1);
-    const status = blobRes.status;
-
-    fillResponseData({
-      dataSizeKB,
-      status,
-      responseTimeMs,
-    });
-  } catch (err) {
-    const receiveDate = new Date().getTime();
-
-    console.log(responseTimeMs, refs.resTime.textContent);
-    fillResponseData({
-      dataSizeKB: err.response?.data.size || 0,
-      status: err.response?.status || err.message,
-      responseTimeMs: receiveDate - sendDate,
-    });
-  }
-
-  // add url to db
-  const username = localStorage.getItem("username");
-  const formController = new RegForm();
-  try {
-    const res = await formController.addToHistory(username, url.value);
-    refs.reqHistory.textContent = res.data.reqHistory.join(", ");
-  } catch (err) {
-    console.log(err);
   }
 };
 
@@ -133,11 +58,28 @@ function handleFormSubmit(event) {
   refs.currentURL.textContent =
     `${method.value} ${url.value.trim()}` || "Untitled Request";
 
+  const someTestData = {
+    name: "Kia Rio",
+    priority: 2,
+    username: "1111",
+  };
+
   switch (method.value) {
-    case "GET": {
-      getData(url);
+    case "GET":
+      sendRequest(() => getMethod(url.value));
       break;
-    }
+    case "PUT":
+      sendRequest(() => updatePutMethod(url.value, someTestData));
+      break;
+    case "PATCH":
+      sendRequest(() => updatePatchMethod(url.value, someTestData));
+      break;
+    case "POST":
+      sendRequest(() => createMethod(url.value, someTestData));
+      break;
+    case "DELETE":
+      sendRequest(() => deleteMethod(url.value));
+      break;
   }
 }
 
