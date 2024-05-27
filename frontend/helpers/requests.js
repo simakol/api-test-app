@@ -5,7 +5,7 @@ const fillResponseData = ({
   dataSizeKB = 0,
   status = "",
   responseTimeMs = 0,
-}) => {
+} = {}) => {
   refs.resSize.textContent = dataSizeKB + " KB";
   refs.resStatus.textContent = status;
   refs.resTime.textContent = responseTimeMs + " ms";
@@ -64,4 +64,4 @@ const sendRequest = async (methodFunc, url) => {
   addUrlToDB();
 };
 
-export { sendRequest };
+export { sendRequest, fillResponseData };

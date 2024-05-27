@@ -14,4 +14,7 @@ export default {
   formTitle: document.getElementById("formTitle"),
   reqHistory: document.getElementById("reqHistory"),
   clearHistoryBtn: document.getElementById("clearHistoryBtn"),
+  reqSettingsTitles: document.getElementById("reqSettingsTitles"),
+  reqSettingsContent: document.getElementById("reqSettingsContent"),
+  reqBody: document.getElementById("reqBody"),
 };

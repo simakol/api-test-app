@@ -13,15 +13,12 @@ async function handleRegFormSubmit(event) {
   };
   localStorage.setItem("username", user.username);
 
-  console.log(formAction, user);
-
   if (formAction === RegForm.ENDPOINTS.login) {
     try {
       const res = await formController.login(user);
       if (res.status === 200) {
         Notiflix.Notify.success("Welcome back!");
         formController.closeForm();
-        console.log(res, res.data.reqHistory);
         refs.reqHistory.textContent = res.data.reqHistory.join(", ");
       }
     } catch (err) {
@@ -30,7 +27,6 @@ async function handleRegFormSubmit(event) {
   } else {
     try {
       const res = await formController.registration(user);
-      console.log(res);
       if (res.status === 200) {
         Notiflix.Notify.success("User successfully registered!");
         formController.closeForm();

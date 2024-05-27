@@ -35,6 +35,7 @@ https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css
               type="text"
               name="username"
               placeholder="Username"
+              autocomplete="username"
               required
             />
           </div>
@@ -44,6 +45,7 @@ https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css
               type="password"
               name="password"
               placeholder="Password"
+              autocomplete="current-password"
               required
             />
           </div>
@@ -84,16 +86,29 @@ https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css
         </div>
         <p id="reqHistory"></p>
 
-        <h3 class="table-title">query params</h3>
-        <table class="query-table">
-          <thead>
-            <tr>
-              <th>Key</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody id="queryTableBody"></tbody>
-        </table>
+        <div class="request-settings-wrapper">
+          <div class="request-settings-titles" id="reqSettingsTitles">
+            <h3 class="table-title active">query params</h3>
+            <h3 class="table-title">request body</h3>
+          </div>
+
+          <div class="request-settings-content" id="reqSettingsContent">
+            <div class="request-settings-item active">
+              <table class="query-table">
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody id="queryTableBody"></tbody>
+              </table>
+            </div>
+            <div class="request-settings-item">
+              <textarea id="reqBody" class="request-body-input"></textarea>
+            </div>
+          </div>
+        </div>
 
         <h3 class="table-title">Responce body</h3>
         <div class="res-data">

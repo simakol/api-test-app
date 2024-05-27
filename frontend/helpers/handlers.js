@@ -11,6 +11,7 @@ import {
   updatePutMethod,
   createMethod,
 } from "../services/apiService.js";
+import { fillResponseData } from "./requests.js";
 
 const fillTableWithData = (paramsArr) => {
   const paramsAmount = paramsArr.length;
@@ -29,6 +30,19 @@ const fillTableWithData = (paramsArr) => {
     const [key, value] = paramsArr[i] || [];
     insertRow(key, value, i);
   }
+};
+
+const getReqBody = () => {
+  let textareaValue = refs.reqBody.value.trim();
+
+  try {
+    textareaValue = JSON.parse(textareaValue);
+  } catch (err) {
+    Notiflix.Notify.failure(err.message);
+    return "";
+  }
+
+  return textareaValue;
 };
 
 function handleFormInput(event) {
@@ -58,24 +72,29 @@ function handleFormSubmit(event) {
   refs.currentURL.textContent =
     `${method.value} ${url.value.trim()}` || "Untitled Request";
 
-  const someTestData = {
-    name: "Kia Rio",
-    priority: 2,
-    username: "1111",
-  };
+  const isMethodContainsBody = ["PUT", "PATCH", "POST"].includes(method.value);
+  const reqBody = isMethodContainsBody ? getReqBody() : "";
+
+  // in case of json parsing error
+  if (!reqBody && isMethodContainsBody) {
+    // clear response and exit function
+    refs.jsonTree.innerHTML = "";
+    fillResponseData();
+    return;
+  }
 
   switch (method.value) {
     case "GET":
       sendRequest(() => getMethod(url.value));
       break;
     case "PUT":
-      sendRequest(() => updatePutMethod(url.value, someTestData));
+      sendRequest(() => updatePutMethod(url.value, reqBody));
       break;
     case "PATCH":
-      sendRequest(() => updatePatchMethod(url.value, someTestData));
+      sendRequest(() => updatePatchMethod(url.value, reqBody));
       break;
     case "POST":
-      sendRequest(() => createMethod(url.value, someTestData));
+      sendRequest(() => createMethod(url.value, reqBody));
       break;
     case "DELETE":
       sendRequest(() => deleteMethod(url.value));

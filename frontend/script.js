@@ -7,7 +7,7 @@ import {
 import refs from "./helpers/refs.js";
 import { STORAGE_KEYS, load } from "./services/storage.js";
 import { handleRegFormSubmit, handleSwitchFormAction } from "./helpers/form.js";
-import RegForm from "./services/formService.js";
+import { switchSettingsTitles } from "./helpers/reqSettingsSwitcher.js";
 
 refs.mainForm.addEventListener("input", handleFormInput);
 refs.queryTableBody.addEventListener("input", handleTableParamsInput);
@@ -15,6 +15,7 @@ refs.mainForm.addEventListener("submit", handleFormSubmit);
 refs.regForm.addEventListener("submit", handleRegFormSubmit);
 refs.switchFormAction.addEventListener("click", handleSwitchFormAction);
 refs.clearHistoryBtn.addEventListener("click", handleClearReqHistory);
+refs.reqSettingsTitles.addEventListener("click", switchSettingsTitles);
 
 fillFormFromLS();
 

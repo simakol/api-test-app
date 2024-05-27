@@ -127,8 +127,53 @@ input:hover {
   text-transform: capitalize;
   text-align: left;
   font-weight: bold;
-  margin: 50px 0 10px;
 }
+
+.request-settings-wrapper {
+  margin-bottom: 50px;
+}
+
+.request-settings-titles {
+  display: flex;
+  justify-content: start;
+  gap: 25px;
+  align-items: center;
+  margin: 50px 0 15px;
+}
+
+.request-settings-titles > .table-title {
+  border-bottom: 1px solid transparent;
+  padding-bottom: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.request-settings-titles > .table-title:hover {
+  color: #9cdcfe;
+}
+
+.request-settings-titles > .table-title.active {
+  border-color: #9cdcfe;
+}
+
+.request-settings-item {
+  display: none;
+}
+.request-settings-item.active {
+  display: block;
+}
+.request-body-input {
+  width: 100%;
+  background-color: #212121;
+  border: 2px solid #303030;
+  padding: 10px;
+  color: #fff;
+  font-size: 16px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 150px;
+  outline: none;
+}
+
 .query-table {
   width: 100%;
 }
@@ -146,8 +191,8 @@ input:hover {
 tr,
 td,
 th {
-  border: 2px solid #303030;
   border-collapse: collapse;
+  border: 2px solid #303030;
   color: #fff;
   padding: 10px;
   text-align: left;
