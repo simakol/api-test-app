@@ -246,3 +246,97 @@ span.jsontree_value.jsontree_value_null {
 .res-data span {
   color: #6bdd9a;
 }
+
+#chat-container {
+  width: 400px;
+  height: 500px;
+  max-width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  transition: height 0.3s ease;
+}
+#chat-header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#toggle-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+#messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ddd;
+}
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+.user-message {
+  background-color: #007bff;
+  color: #fff;
+  align-self: flex-end;
+}
+.bot-message {
+  background-color: #f1f1f1;
+  color: #333;
+  align-self: flex-start;
+}
+.code-message {
+  background-color: #f5f5f5;
+  color: #333;
+  font-family: monospace;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+#input-container {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+#input-container input {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  font-size: 16px;
+}
+#input-container button {
+  padding: 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#input-container button:hover {
+  background-color: #0056b3;
+}
+#chat-container.hidden #messages,
+#chat-container.hidden #input-container {
+  display: none;
+}
+#chat-container.hidden {
+  height: 40px;
+}

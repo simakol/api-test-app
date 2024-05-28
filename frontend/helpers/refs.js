@@ -17,4 +17,5 @@ export default {
   reqSettingsTitles: document.getElementById("reqSettingsTitles"),
   reqSettingsContent: document.getElementById("reqSettingsContent"),
   reqBody: document.getElementById("reqBody"),
+  gptBtn: document.getElementById("send-button"),
 };
