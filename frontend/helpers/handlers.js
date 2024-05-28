@@ -12,7 +12,9 @@ import {
   createMethod,
 } from "../services/apiService.js";
 import { fillResponseData } from "./requests.js";
-import measureApiSpeed from "./chart.js";
+import { getGPTAnswer } from "../chatGPT/chatGPT.js";
+
+const messagesForAIResponse = [];
 
 const fillTableWithData = (paramsArr) => {
   const paramsAmount = paramsArr.length;
@@ -65,7 +67,7 @@ function handleFormInput(event) {
   save(STORAGE_KEYS.url, target.value);
 }
 
-function handleFormSubmit(event) {
+async function handleFormSubmit(event) {
   event.preventDefault();
   refs.jsonTree.innerHTML = "Loading...";
 
@@ -84,23 +86,57 @@ function handleFormSubmit(event) {
     return;
   }
 
+  let requestRes = {};
   switch (method.value) {
     case "GET":
-      sendRequest(() => getMethod(url.value));
+      requestRes = await sendRequest(() => getMethod(url.value));
       break;
     case "PUT":
-      sendRequest(() => updatePutMethod(url.value, reqBody));
+      requestRes = await sendRequest(() => updatePutMethod(url.value, reqBody));
       break;
     case "PATCH":
-      sendRequest(() => updatePatchMethod(url.value, reqBody));
+      requestRes = await sendRequest(() =>
+        updatePatchMethod(url.value, reqBody)
+      );
       break;
     case "POST":
-      sendRequest(() => createMethod(url.value, reqBody));
+      requestRes = await sendRequest(() => createMethod(url.value, reqBody));
       break;
     case "DELETE":
-      sendRequest(() => deleteMethod(url.value));
+      requestRes = await sendRequest(() => deleteMethod(url.value));
       break;
   }
+  refs.askAIResponseButton.disabled = false;
+  refs.askAIResponseButton.textContent = "Ask AI about your response";
+  refs.aiResponse.textContent = "";
+
+  messagesForAIResponse.splice(0);
+  refs.askAIResponseButton.addEventListener("click", () =>
+    handleAskAI(requestRes)
+  );
+}
+
+async function handleAskAI(requestRes) {
+  refs.askAIResponseButton.disabled = true;
+  const newMsg =
+    messagesForAIResponse.length > 0
+      ? {
+          role: "user",
+          content:
+            "враховуючи свою попередню відповідь, продовжи з того ж місця",
+        }
+      : {
+          role: "user",
+          content: `проаналізуйте наступну відповідь від серверу та дайте свій розгорнутий коментар (або продовжіть попередню відповідь, якщо ви не дописали): ${JSON.stringify(
+            requestRes
+          )}`,
+        };
+  messagesForAIResponse.push(newMsg);
+  const response = await getGPTAnswer(messagesForAIResponse);
+
+  refs.aiResponse.textContent += response;
+  refs.askAIResponseButton.disabled = false;
+  refs.askAIResponseButton.textContent = "Continue";
 }
 
 function handleTableParamsInput(event) {

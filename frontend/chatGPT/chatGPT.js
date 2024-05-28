@@ -1,4 +1,4 @@
-const apiKey = "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";
+const apiKey = "sk-proj-E5d8h6RWb4qiZO9diJlfT3BlbkFJgONYRXXbEFUsNooyhurP";
 
 let messages = [];
 const chatContainer = document.getElementById("chat-container");
@@ -13,7 +13,34 @@ function toggleChat() {
     : "−";
 }
 
-function sendGPTMessage() {
+async function getGPTAnswer(messages) {
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo-16k",
+        messages: messages,
+        max_tokens: 150,
+        n: 1,
+        stop: null,
+        temperature: 0.7,
+      }),
+    });
+    const data = await response.json();
+    const botResponse = data.choices[0].message.content.trim();
+    messages.push({ role: "assistant", content: botResponse });
+
+    return botResponse;
+  } catch (err) {
+    console.error("Error:", err);
+  }
+}
+
+async function sendGPTMessage() {
   const userInput = document.getElementById("user-input").value;
   if (userInput.trim() === "") return;
 
@@ -26,45 +53,23 @@ function sendGPTMessage() {
 
   document.getElementById("user-input").value = "";
 
-  fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: messages,
-      max_tokens: 150,
-      n: 1,
-      stop: null,
-      temperature: 0.7,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const botResponse = data.choices[0].message.content.trim();
+  const botResponse = await getGPTAnswer(messages);
+  const botMessage = document.createElement("div");
+  botMessage.className = "message bot-message";
 
-      const botMessage = document.createElement("div");
-      botMessage.className = "message bot-message";
+  if (botResponse.includes("```")) {
+    const codeMessage = document.createElement("div");
+    codeMessage.className = "message bot-message code-message";
+    codeMessage.innerHTML = botResponse.replace(/```/g, "");
+    botMessage.appendChild(codeMessage);
+  } else {
+    botMessage.textContent = botResponse;
+  }
 
-      if (botResponse.includes("```")) {
-        const codeMessage = document.createElement("div");
-        codeMessage.className = "message bot-message code-message";
-        codeMessage.innerHTML = botResponse.replace(/```/g, "");
-        botMessage.appendChild(codeMessage);
-      } else {
-        botMessage.textContent = botResponse;
-      }
+  document.getElementById("messages").appendChild(botMessage);
 
-      document.getElementById("messages").appendChild(botMessage);
-
-      messages.push({ role: "assistant", content: botResponse });
-
-      document.getElementById("messages").scrollTop =
-        document.getElementById("messages").scrollHeight;
-    })
-    .catch((error) => console.error("Error:", error));
+  document.getElementById("messages").scrollTop =
+    document.getElementById("messages").scrollHeight;
 }
 
 let isDragging = false;
@@ -102,4 +107,4 @@ function onMouseUp() {
   document.removeEventListener("mouseup", onMouseUp);
 }
 
-export default sendGPTMessage;
+export { sendGPTMessage, getGPTAnswer };

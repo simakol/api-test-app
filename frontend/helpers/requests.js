@@ -36,12 +36,13 @@ const addUrlToDB = async () => {
 
 //* === requests methods ===
 
-const sendRequest = async (methodFunc, url) => {
+const sendRequest = async (methodFunc) => {
   const responseData = {};
   const sendDate = performance.now();
+  let result = {};
 
   try {
-    const result = await methodFunc();
+    result = await methodFunc();
     const receiveDate = performance.now();
 
     responseData.dataSizeKB = result.headers["content-length"] / 1000;
@@ -51,7 +52,7 @@ const sendRequest = async (methodFunc, url) => {
     showDataInJSONTree(result.data);
   } catch (err) {
     const receiveDate = performance.now();
-    console.log(err);
+    result = err.response;
 
     responseData.dataSizeKB = err.response.headers["content-length"] / 1000;
     responseData.status = err.response.status + " " + err.response.statusText;
@@ -62,6 +63,7 @@ const sendRequest = async (methodFunc, url) => {
 
   fillResponseData(responseData);
   addUrlToDB();
+  return result;
 };
 
 export { sendRequest, fillResponseData };

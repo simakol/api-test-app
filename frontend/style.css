@@ -350,7 +350,7 @@ span.jsontree_value.jsontree_value_null {
   margin: 50px 0;
 }
 
-#testAPIButton {
+.test-btn {
   color: #9cdcfe;
   background-color: transparent;
   border: 1px solid #9cdcfe;
@@ -361,13 +361,25 @@ span.jsontree_value.jsontree_value_null {
   transition: 0.5s;
 }
 
-#testAPIButton:hover {
+.test-btn:hover {
   color: #333;
   background-color: #9cdcfe;
   border-color: #303030;
 }
 
-#testAPIButton:disabled {
+.test-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+#aiResponse {
+  width: 100%;
+  text-wrap: wrap;
+  line-height: 25px;
+  border: 2px solid #303030;
+  color: #a6a6a6;
+  padding: 15px;
+  margin: 50px 0;
+  min-height: 100px;
+  text-align: left;
 }

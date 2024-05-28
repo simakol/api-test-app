@@ -111,10 +111,22 @@ https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css
         </div>
 
         <div class="test-api-chart-wrapper">
-          <button type="button" id="testAPIButton">
+          <button type="button" id="testAPIButton" class="test-btn">
             Test current API response time
           </button>
-          <canvas id="apiSpeedChart" width="400" height="200"></canvas>
+          <canvas id="apiSpeedChart"></canvas>
+        </div>
+
+        <div class="ai-response-analysis">
+          <button
+            type="button"
+            id="askAIResponseButton"
+            class="test-btn"
+            disabled
+          >
+            Ask AI about your response
+          </button>
+          <pre id="aiResponse"></pre>
         </div>
 
         <h3 class="table-title">Response body</h3>

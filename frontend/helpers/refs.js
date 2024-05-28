@@ -19,4 +19,6 @@ export default {
   reqBody: document.getElementById("reqBody"),
   gptBtn: document.getElementById("send-button"),
   testAPIButton: document.getElementById("testAPIButton"),
+  askAIResponseButton: document.getElementById("askAIResponseButton"),
+  aiResponse: document.getElementById("aiResponse"),
 };

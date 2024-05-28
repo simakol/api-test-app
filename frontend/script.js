@@ -8,7 +8,7 @@ import refs from "./helpers/refs.js";
 import { STORAGE_KEYS, load } from "./services/storage.js";
 import { handleRegFormSubmit, handleSwitchFormAction } from "./helpers/form.js";
 import { switchSettingsTitles } from "./helpers/reqSettingsSwitcher.js";
-import sendGPTMessage from "./chatGPT/chatGPT.js";
+import { sendGPTMessage } from "./chatGPT/chatGPT.js";
 import measureApiSpeed from "./helpers/chart.js";
 
 refs.mainForm.addEventListener("input", handleFormInput);
