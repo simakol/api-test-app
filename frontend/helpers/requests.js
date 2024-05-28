@@ -8,7 +8,7 @@ const fillResponseData = ({
 } = {}) => {
   refs.resSize.textContent = dataSizeKB + " KB";
   refs.resStatus.textContent = status;
-  refs.resTime.textContent = responseTimeMs + " ms";
+  refs.resTime.textContent = responseTimeMs.toFixed(2) + " ms";
 };
 
 const streamToObj = (obj) => JSON.parse(JSON.stringify(obj));
@@ -38,11 +38,11 @@ const addUrlToDB = async () => {
 
 const sendRequest = async (methodFunc, url) => {
   const responseData = {};
-  const sendDate = new Date().getTime();
+  const sendDate = performance.now();
 
   try {
     const result = await methodFunc();
-    const receiveDate = new Date().getTime();
+    const receiveDate = performance.now();
 
     responseData.dataSizeKB = result.headers["content-length"] / 1000;
     responseData.status = result.status;
@@ -50,7 +50,7 @@ const sendRequest = async (methodFunc, url) => {
 
     showDataInJSONTree(result.data);
   } catch (err) {
-    const receiveDate = new Date().getTime();
+    const receiveDate = performance.now();
     console.log(err);
 
     responseData.dataSizeKB = err.response.headers["content-length"] / 1000;

@@ -340,3 +340,34 @@ span.jsontree_value.jsontree_value_null {
 #chat-container.hidden {
   height: 40px;
 }
+
+.test-api-chart-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 50px;
+  margin: 50px 0;
+}
+
+#testAPIButton {
+  color: #9cdcfe;
+  background-color: transparent;
+  border: 1px solid #9cdcfe;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+#testAPIButton:hover {
+  color: #333;
+  background-color: #9cdcfe;
+  border-color: #303030;
+}
+
+#testAPIButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

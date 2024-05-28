@@ -12,6 +12,7 @@ import {
   createMethod,
 } from "../services/apiService.js";
 import { fillResponseData } from "./requests.js";
+import measureApiSpeed from "./chart.js";
 
 const fillTableWithData = (paramsArr) => {
   const paramsAmount = paramsArr.length;

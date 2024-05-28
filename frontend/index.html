@@ -110,7 +110,14 @@ https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css
           </div>
         </div>
 
-        <h3 class="table-title">Responce body</h3>
+        <div class="test-api-chart-wrapper">
+          <button type="button" id="testAPIButton">
+            Test current API response time
+          </button>
+          <canvas id="apiSpeedChart" width="400" height="200"></canvas>
+        </div>
+
+        <h3 class="table-title">Response body</h3>
         <div class="res-data">
           <p>Status: <span id="resStatus"></span></p>
           <p>Size: <span id="resSize"></span></p>
@@ -128,13 +135,14 @@ https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css
           <input
             type="text"
             id="user-input"
-            placeholder="Введите сообщение..."
+            placeholder="Введіть повідомлення..."
           />
-          <button id="send-button">Отправить</button>
+          <button id="send-button">Відправити</button>
         </div>
       </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="
 https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-aio-3.2.7.min.js
 "></script>
